@@ -158,7 +158,10 @@ CREATE TABLE ImpuestoXCompra (
     CHECK (
       Tipo_Impuesto IN ('IVA', 'ISR', 'ICA')
     ),
-  
+  Total_Impuesto NUMBER NOT NULL
+    CHECK (
+      Total_Impuesto >= 0
+    ),
   Porcentaje NUMBER NOT NULL
     CHECK (
       Porcentaje >= 0 AND
