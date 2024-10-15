@@ -33,7 +33,9 @@ Además, cada compra está vinculada a un pago a través de una relación de uno
 
 ### Diseño Relacional
 
-Luego de diseñar este diagrama, comenzamos con el diseño relacional, este nos permitio observar distintos cambios que debíamos efectuar en el diseño que estamos proponiendo.
+Después de diseñar el diagrama, pasamos al modelo relacional, lo que nos permitió identificar varios ajustes necesarios en el diseño propuesto.
+
+Decidimos mantener la segunda forma normal (2FN) en la relación entre compra e impuesto. En consultas donde sea necesario recuperar el total de ventas o compras, el gran volumen de transacciones que podría manejar la base de datos haría que las consultas de agregación o cálculos derivados consumieran muchos recursos. Por ello, es más eficiente almacenar estos cálculos derivados, ya que no se actualizan y se consultan con frecuencia.
 
 ## Datos Usados
 
