@@ -1,6 +1,7 @@
 DROP TABLE CompraxProducto;
 DROP TABLE TxPuntos;
 DROP TABLE ImpuestoXCompra;
+DROP TABLE MiembroxCorreo;
 DROP TABLE Pago;
 DROP TABLE Compra;
 DROP TABLE InventarioCafeteria;
