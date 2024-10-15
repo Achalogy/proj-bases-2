@@ -17,7 +17,6 @@ CREATE TABLE Miembro (
       ),
     Nombre VARCHAR2(255) NOT NULL,
     
-    Puntos_Acumulados INT,
     PRIMARY KEY (ID_Miembro)
 );
 
@@ -50,12 +49,10 @@ CREATE TABLE Piso (
 CREATE TABLE Cafeteria (
   Nombre VARCHAR2(255) NOT NULL,
   ID_Piso NUMBER NOT NULL,
-  Nombre_Edificio VARCHAR2(255) NOT NULL,
+ 
 
   PRIMARY KEY (Nombre),
   FOREIGN KEY (ID_Piso) REFERENCES Piso(ID_Piso)
-    ON DELETE SET NULL,
-  FOREIGN KEY (Nombre_Edificio) REFERENCES Edificio(Nombre)
     ON DELETE SET NULL
 );
 

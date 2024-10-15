@@ -47,6 +47,89 @@ En cuanto a la tabla de pagos, se añadió el ID de compra como clave foránea, 
 
 Finalmente, decidimos mantener la segunda forma normal en la relación entre compras e impuestos. Aunque las consultas de agregación pueden ser costosas debido al volumen de transacciones, almacenar ciertos cálculos derivados es más eficiente en este caso, dado que no se actualizan con frecuencia y se consultan con regularidad.
 
+Como regla general (aunqe no estricta) tomamos la decisión deliberada de mantener tablas con atributos calculados que:
+a. Se calculan una unica vez y el riesgo de que se llegue a inconsistencias es minimo
+b. Se consulta el atributo derivado con alta frecuencia en otros calculos de agregacion 
+
+Se mantienen en 2FN con tal reducir la intensidad computacional de las consultas de agregación. Las tablas que tratasen de registros de entidades en su mayoria estáticas se llevaron a 3FN pues mantener la consistencia de los datos no implicaba un costo computacional significativo y, de hecho, lo reducia permitiendo hacer una unica actualización en lugar de muchas. Tambien cabe resaltar que se intento asignar una especie ID único no compuesto donde fuera posible a cada tabla para acercarlas a 2FN.
+
+A continuación, detallamos las procesos de normalizacion tabla a tabla y explicamos en detalle por que se mantuvieron en 2FN o se llevaron a 3FN según la lógica de negocio donde sea relevante o no evidente el por que:
+
+Edificio:
+- 3FN
+- Es trivial pues la unica dependencia funcional es la de su llave primaria consigo misma
+- Nombre -> Nombre
+
+Piso:
+- 3FN
+- Piso se mantiene en 3FN principalmente gracias al hecho de su relacion 1:N con edificio. Es imposible identificar un piso a partir del edificio al que esta asociado (pues un edificio puede tener multitud de pisos) pero un edificio único siempre puede ser identificado por un piso, pues cada piso tiene una ID única asociada. Asi tenemos dependencia total de la llave primaria y no hay dependencias transitivas pues no hay más atributos no clave.
+- ID_Piso -> Nombre_Edificio
+
+Cafeteria:
+- 3FN
+- Mismo principio que la tabla "Piso". Relación 1:N con Piso vuelven imposible identificar una única cafeteria por el piso, pero lo inverso si es cierto.
+- Nombre_Cafeteria -> Piso
+
+Colaborador:
+- 3FN
+- Un colaborador tiene un identificador único. Es posible que existan colaboradores con el mismo nombre. Una cafeteria puede tener multiples trabajadores asi que es imposible inferir un único colaborador a partir de ese atributo.
+- ID_Colaborador -> {Nombre, Tipo_Contrato, Nombre_Cafeteria}
+
+Inventario_Cafeteria:
+- 3FN
+- Las existencias de un producto son independientes cafeteria a cafeteria, por ende se requiere de una llave compuesta que identifique y asocie las existencias de un producto dentro de una cafeteria especifica. Múltiples cafeterias diferentes pueden tener la misma existencia de un mismo prodcuto. Hay dependencia total de la llave primaria compuesta.
+- {Nombre_Cafeteria, Nombre_Producto} -> Existencias
+
+Producto:
+- 3FN
+- Única dependencia del atributo clave, la dependencia no es invertible por el hecho de que diferentes productos pueden tener el mismo precio.
+- Nombre_Producto -> Precio
+
+CompraxProducto:
+- 3FN
+- La relación entre una compra y una cantidad de prodcutos. La cantidad de un producto por compra depende directamente de en que compra se hizo de que producto se compró (no tendria ningún tipo de sentido haber comprado 5 nadas) y por eso existe dependecia total de la llave primaria, además de no haber dependencias transitivas de por medio.
+- {Nombre_Producto, ID_Compra} -> Cantidad
+
+Compra:
+- 2FN
+- A pesar de que se garantiza dependencia total de la llave primaria (pues una compra posee un identificador único y por la naturaleza de asociacion N:1 con miembro y colaborador se implica que un colaborador le puede hcaer muchas ventas a un único miembro por lo que este identificador es lo único que genuinamente puede diferenciar compras) y a simple vista no existen dependencias transitivas dentro de la tabla, se asumiría que está en 3FN, sin embargo, Total_Compra es un elemento que se puede derivar de atributos de OTRAS tablas lo cual por definición viola FN3, pues Total_Compra puede ser inferido a traves de CompraxProducto y Producto (Cantidad x precio por cada tupla asociada) junto con ImpuestoxCompra (El impuesto agregado al subtotal). Sin embargo, se toma la decisión deliberada de mantenerla en 2FN, ya que es necesario poder calcular las comisiones de cada colaborador con eficiencia y tener que recalcular el valor total de una compra, que se somete a multiples impuestos y multiples diferentes productos de precios variables no solo pone en riesgo la integridad del valor (pues el precio de un producto puede cambiar con el tiempo) sino que se vuelve extremadamente demandante en cuanto a poder computacional y complica innecesariamente la estructura de las consultas.
+- ID_Compra -> {ID_Miembro, ID_Colaborador, Fecha, Total_Compra} donde Total_Compra se infiere de atributos externos.
+
+ImpuestoxCompra, TX_Puntos:
+- 2FN, 2FN
+- La decisión sigue exactamente el mismo criterio que para la tabla compra, donde esta vez los atributos calculados son Total_Puntos (generados por una compra) y Total_Impuesto (Añadido al subtotal, en este caso se infiere directamente desde la tabla por medio de porcentaje pues subtotal*porcentaje=Total_Impuesto).
+- ID_Impuesto -> {Tipo_Impuesto, porcentaje, ID_Compra, Total_Impuesto} donde existe la dependencia parcial transitiva Porcentaje -> Total_Impuesto
+- ID_TX_Puntos -> {Fecha, Total_Puntos, Tipo, ID_Compra, ID_Miembro} donde Total_Puntos se infiere de cálculos con atributos externos
+
+Pago:
+- 3FN
+- Pago no posee ningún atributo calculado y sigue los principios de depedencia total sobre la llave primaria para 2FN y no existen dependencias transitivas por lo que se entiende 3FN
+- ID_Pago -> {Monto_Total, Metodo_Pago, ID_Compra, Numero_Tarjeta}
+
+Puntos:
+- 3FN
+- Dependencia trivial, su llave es su único atributo y no es calculado.
+- Valor -> Valor
+
+Miembro:
+- 3FN 
+- Se logra su identificación total por medio de su ID, sus campos multivaluados se han descompuesto en la relación CorreoxMiembro.
+- ID_Miembro -> {Tipo_Miembro, Genero, Nombre}
+
+CorreoxMiembro:
+- 3FN
+- Garantiza que miembro se pueda encontrar en 1FN. Ella misma se encuentra en 3FN ya que un ID_Miembro no identifica a un unico correo sino a varios, pero la afirmación contraria si se cumple pues un correo siempre estará asociado a un ID especifico.
+- Correo -> ID_Miembro
+
+
+
+
+
+
+
+
+
+
 ## Datos Usados
 
 ### Edificios
