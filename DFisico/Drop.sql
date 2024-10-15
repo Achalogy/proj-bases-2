@@ -1,0 +1,13 @@
+DROP TABLE CompraxProducto;
+DROP TABLE TxPuntos;
+DROP TABLE ImpuestoXCompra;
+DROP TABLE Pago;
+DROP TABLE Compra;
+DROP TABLE InventarioCafeteria;
+DROP TABLE Producto;
+DROP TABLE Colaborador;
+DROP TABLE Cafeteria;
+DROP TABLE Piso;
+DROP TABLE Edificio;
+DROP TABLE Miembro;
+DROP TABLE Puntos;
