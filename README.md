@@ -13,7 +13,7 @@ Archivo `.sql` final: [query.sql](https://github.com/Achalogy/proj-bases-1/blob/
 
 ### Diseño E/R
 
-![](/assets/images/Modelo_ER.png)
+![](./assets/images/Modelo_ER.png)
 
 Nuestro primer paso en la construcción de esta Base de datos fue el modelo de Entidad / Relación, en este modelo, se representan varios componentes clave.
 
