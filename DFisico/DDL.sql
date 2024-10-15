@@ -15,7 +15,7 @@ CREATE TABLE Miembro (
       CHECK(
         Genero IN ('F', 'M')
       ),
-    NOMBRE VARCHAR2(255) NOT NULL
+    Nombre VARCHAR2(255) NOT NULL
     Correo VARCHAR2(255) NOT NULL
       CHECK(
         Correo LIKE '%_@_%_.__%'
