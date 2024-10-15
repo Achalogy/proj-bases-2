@@ -33,7 +33,7 @@ Además, cada compra está vinculada a un pago a través de una relación de uno
 
 ### Diseño Relacional
 
-
+Luego de diseñar este diagrama, comenzamos con el diseño relacional, este nos permitio observar distintos cambios que debíamos efectuar en el diseño que estamos proponiendo.
 
 ## Datos Usados
 
