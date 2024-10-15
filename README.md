@@ -1,7 +1,7 @@
 # Proyecto Bases 2
-[https://github.com/Achalogy/proj-bases-1](https://github.com/Achalogy/proj-bases-1)
+[https://github.com/Achalogy/proj-bases-2](https://github.com/Achalogy/proj-bases-2)
 
-Archivo `.sql` final: [query.sql](https://github.com/Achalogy/proj-bases-1/blob/main/query.sql)
+Archivo `.sql` final: [query.sql](https://github.com/Achalogy/proj-bases-2/blob/main/query.sql)
 
 - Miguel Francisco Vargas Contreras `is147208`
 - Nicolas Diaz Granados Cano `is147201`
@@ -33,9 +33,19 @@ Además, cada compra está vinculada a un pago a través de una relación de uno
 
 ### Diseño Relacional
 
-Después de diseñar el diagrama, pasamos al modelo relacional, lo que nos permitió identificar varios ajustes necesarios en el diseño propuesto.
+![](./assets/images/Modelo_Relacional.jpg)
 
-Decidimos mantener la segunda forma normal (2FN) en la relación entre compra e impuesto. En consultas donde sea necesario recuperar el total de ventas o compras, el gran volumen de transacciones que podría manejar la base de datos haría que las consultas de agregación o cálculos derivados consumieran muchos recursos. Por ello, es más eficiente almacenar estos cálculos derivados, ya que no se actualizan y se consultan con frecuencia.
+Después de diseñar el diagrama, pasamos al modelo relacional, lo que permitió identificar varios ajustes en el diseño original. Se creó una tabla independiente llamada CorreoxMiembro, que contiene el correo electrónico como clave primaria y el ID de miembro como clave foránea, eliminando así la dependencia multivaluada de los correos en la tabla Miembro. Esto facilita que cada miembro tenga varios correos asociados.
+
+La información sobre los puntos también se separó en una tabla independiente, lo que ofrece mayor flexibilidad para gestionar los cambios en los valores de puntos a lo largo del tiempo. Además, se diseñó una tabla para registrar las transacciones de puntos, que incluye datos como la fecha, el total de puntos, el tipo de transacción, y las claves foráneas hacia las compras y los miembros. Esto permite un seguimiento detallado de cómo se acumulan o gastan los puntos, con un registro claro vinculado a compras específicas.
+
+Para resolver la relación muchos a muchos entre cafeterías y productos, se creó una tabla intermedia llamada Inventario_Cafetería, lo que facilita el seguimiento del inventario de productos por cada cafetería. También se creó una tabla intermedia entre compras y productos, que registra la cantidad de productos por compra, resolviendo así la relación muchos a muchos entre estas dos entidades.
+
+Se implementó una tabla para gestionar los impuestos aplicados a las compras, que incluye el tipo de impuesto, el porcentaje y el total aplicado a cada compra, lo que permite manejar múltiples tipos de impuestos en una sola transacción.
+
+En cuanto a la tabla de pagos, se añadió el ID de compra como clave foránea, vinculando cada pago con su respectiva compra. Además, se eliminaron atributos redundantes en varias tablas para garantizar que la información esté normalizada y vinculada adecuadamente mediante claves foráneas.
+
+Finalmente, decidimos mantener la segunda forma normal en la relación entre compras e impuestos. Aunque las consultas de agregación pueden ser costosas debido al volumen de transacciones, almacenar ciertos cálculos derivados es más eficiente en este caso, dado que no se actualizan con frecuencia y se consultan con regularidad.
 
 ## Datos Usados
 
