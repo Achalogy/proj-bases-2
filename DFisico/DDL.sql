@@ -15,7 +15,7 @@ CREATE TABLE Miembro (
       CHECK(
         Genero IN ('F', 'M')
       ),
-    Nombre VARCHAR2(255) NOT NULL
+    Nombre VARCHAR2(255) NOT NULL,
     
     Puntos_Acumulados INT,
     PRIMARY KEY (ID_Miembro)
