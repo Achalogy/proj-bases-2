@@ -104,21 +104,21 @@ INSERT INTO Cafeteria (Nombre, ID_Piso) VALUES ('Cafetería M', 37);
 
 --- Producto
 
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Té', 5000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Galleta', 1500);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Bebida Energética', 8000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Ensalada', 12000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Fruta', 2500);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Agua', 1000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Sopa', 7000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Wrap', 15000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Bocadillo', 3000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Helado', 4500);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Smoothie', 10000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Brownie', 3500);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Pizza', 20000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Hot Dog', 6000);
-INSERT INTO Producto (Nombre_Producto, Precio) VALUES ('Croissant', 2500);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Té', 10, 3, 5000);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Galleta', 30, 2, 1500);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Bebida Energética', 20, 0, 8000);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Ensalada', 12000, 10, 4);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Fruta', 2500, 15, 5);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Agua', 1000, 50, 10);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Sopa', 7000, 5, 2);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Wrap', 15000, 7 ,3);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Bocadillo', 3000, 15, 4);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Helado', 4500, 10, 1);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Smoothie', 10000, 5, 1);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Brownie', 3500, 20, 5);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Pizza', 20000, 3, 1);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Hot Dog', 6000, 11, 4);
+INSERT INTO Producto (Nombre_Producto, Precio, Cantidad_Reoreden, Nivel_Reorden) VALUES ('Croissant', 2500, 15, 6);
 
 --- Colaborador
 
@@ -339,7 +339,7 @@ INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (1, 'P
 INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (1, 'Té', 2);  -- 2 Té
 INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (1, 'Bebida Energética', 1);  -- 1 Bebida Energética
 
-INSERT INTO TxPuntos (ID_Compra, Fecha, Total_Puntos, Tipo) VALUES (1, TO_DATE('20-03-2023', 'DD-MM-YYYY'), 38, 'ACUMULAR');
+INSERT INTO TxPuntos (ID_Compra, Fecha, Total_Puntos, Tipo, ID_Miembro) VALUES (1, TO_DATE('20-03-2023', 'DD-MM-YYYY'), 38, 'ACUMULAR', 1);
 
 INSERT INTO ImpuestoXCompra (ID_Compra, Tipo_Impuesto, Total_Impuesto, Porcentaje) VALUES (1, 'IVA', 7220, 19);
 INSERT INTO ImpuestoXCompra (ID_Compra, Tipo_Impuesto, Total_Impuesto, Porcentaje) VALUES (1, 'ICA', 2280, 6);
@@ -354,7 +354,7 @@ INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (2, 'S
 INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (2, 'Té', 1);  -- 1 Té
 INSERT INTO CompraxProducto (ID_Compra, Nombre_Producto, Cantidad) VALUES (2, 'Helado', 2);  -- 2 Helado
 
-INSERT INTO TxPuntos (ID_Compra, Fecha, Total_Puntos, Tipo) VALUES (1, TO_DATE('24-03-2023', 'DD-MM-YYYY'), 21, 'ACUMULAR');
+INSERT INTO TxPuntos (ID_Compra, Fecha, Total_Puntos, Tipo, ID_Miembro) VALUES (1, TO_DATE('24-03-2023', 'DD-MM-YYYY'), 21, 'ACUMULAR', 3);
 
 INSERT INTO ImpuestoXCompra (ID_Compra, Tipo_Impuesto, Total_Impuesto, Porcentaje) VALUES (2, 'IVA', 3990, 19);
 
