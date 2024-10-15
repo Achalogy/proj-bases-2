@@ -169,7 +169,7 @@
   
     Tipo_Impuesto VARCHAR2(20) NOT NULL
       CHECK (
-        Tipo_Impuesto IN ('IVA', 'ISR', 'ICA')
+        Tipo_Impuesto IN ('IVA', 'Retefuente', 'ICA')
       ),
     Total_Impuesto NUMBER NOT NULL
       CHECK (
