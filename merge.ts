@@ -3,6 +3,8 @@ import { readFileSync, writeFileSync} from 'fs'
 const order = [
   "DFisico/Drop.sql",
   "DFisico/DDL.sql",
+  "DFisico/relationsInsertFile.sql",
+  "views/VISTA_1.SQL"
 ]
 
 let fileContent = ""

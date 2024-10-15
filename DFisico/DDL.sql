@@ -73,7 +73,11 @@ CREATE TABLE Colaborador (
     CHECK (
       Tipo_Contrato IN ( 'TEMPORAL', 'PLANTA' )
     ),
-    Nombre_Cafeteria VARCHAR2(255) NOT NULL,
+  Nombre_Cafeteria VARCHAR2(255) NOT NULL,
+  Porcentaje_Comision NUMBER NOT NULL
+    CHECK(
+      Porcentaje_Comision >= 0 AND Porcentaje_Comision <= 100
+    ),
 
   PRIMARY KEY (ID_Colaborador),
   FOREIGN KEY (Nombre_Cafeteria) REFERENCES Cafeteria(Nombre)
